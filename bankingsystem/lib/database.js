@@ -362,7 +362,87 @@ function createStoredProcedures() {
         console.log("database.js: procedure check_credentials created if it didn't exist");
       }
     });
-  
+
+    sql = "CREATE PROCEDURE IF NOT EXISTS `find_user_accounts`(\n" +
+              "IN username VARCHAR(255),\n" +
+              "IN account_type VARCHAR(255)\n" +
+          ")\n" +
+          "BEGIN\n" +
+              "SELECT\n" +
+                  "a.account_num, a.balance, a.account_type_id\n" +
+              "FROM\n" +
+                  "account_nums AS a\n" +
+                      "INNER JOIN\n" +
+                  "users AS u ON u.user_id = a.user_id\n" +
+                      "INNER JOIN\n" +
+                  "account_types AS a_t ON a_t.account_type_id = a.account_type_id\n" +
+              "where\n" +
+                "u.username = username\n" +
+                  "and\n" +
+                  "a_t.account_type = account_type;\n" +
+          "END;";
+    con.query(sql, function(err, results, fields) {
+      if (err) {
+        console.log(err.message);
+        throw err;
+      } else {
+        console.log("database.js: procedure find_user_accounts created if it didn't exist");
+      }
+    });
+
+    sql = "CREATE PROCEDURE IF NOT EXISTS `get_user_transactions` (\n" +
+              "IN username varchar(255)\n" +
+          ")\n" +
+          "BEGIN\n" +
+              "SELECT\n" +
+                  "t.account_num, a_t.account_type, t.amount, t.date_time, t.memo\n" +
+              "FROM\n" +
+                  "users u\n" +
+                      "INNER JOIN\n" +
+                  "account_nums an ON u.user_id = an.user_id\n" +
+                      "INNER JOIN\n" +
+                  "transactions t ON an.account_num = t.account_num\n" +
+                      "INNER JOIN\n" +
+                  "account_types a_t ON an.account_type_id = a_t.account_type_id\n" +
+                  "WHERE u.username = username\n" +
+                  "ORDER BY t.date_time DESC;\n" +
+          "END;";
+    con.query(sql, function(err, results, fields) {
+      if (err) {
+        console.log(err.message);
+        throw err;
+      } else {
+        console.log("database.js: procedure get_user_transactions created if it didn't exist");
+      }
+    });
+
+    sql = "CREATE PROCEDURE IF NOT EXISTS `filter_transactions` (\n" +
+              "IN username varchar(255),\n" +
+              "IN accountType varchar(255)\n" +
+          ")\n" +
+          "BEGIN\n" +
+              "SELECT\n" +
+                  "t.account_num, a_t.account_type, t.amount, t.date_time, t.memo\n" +
+              "FROM\n" +
+                  "users u\n" +
+                      "INNER JOIN\n" +
+                  "account_nums an ON u.user_id = an.user_id\n" +
+                      "INNER JOIN\n" +
+                  "transactions t ON an.account_num = t.account_num\n" +
+                      "INNER JOIN\n" +
+                  "account_types a_t ON an.account_type_id = a_t.account_type_id\n" +
+                  "WHERE u.username = username\n" +
+                  "AND a_t.account_type = accountType\n" +
+                  "ORDER BY t.date_time DESC;\n" +
+          "END;";
+    con.query(sql, function(err, results, fields) {
+      if (err) {
+        console.log(err.message);
+        throw err;
+      } else {
+        console.log("database.js: procedure get_user_transactions created if it didn't exist");
+      }
+    });
     
 }
   
@@ -413,7 +493,7 @@ function addTableData() {
     });
 
     sql = "SET @temp = 0;\n" +
-          "CALL new_user('admin', '518210a7b7adc34a3aac2d440bb3a2796a07e3bcc918783559528b44ca5ab26a',\n" +
+          "CALL new_user('admin', '135459db48e05b8d7a0c2449a1dee911a627c07b8ba78e8b562cfef1dc82a445',\n" +
           "'dc1998bcdb6320d', '8011234567', 'John Doe', 'idk Lane Herriman UT 84096', @temp);\n" +
           "Select @temp;";
     con.query(sql, function(err,rows){
@@ -434,7 +514,7 @@ function addTableData() {
     });
 
     sql = "SET @temp = 0;\n" +
-          "CALL new_user('employee', '518210a7b7adc34a3aac2d440bb3a2796a07e3bcc918783559528b44ca5ab26a',\n" +
+          "CALL new_user('employee', '135459db48e05b8d7a0c2449a1dee911a627c07b8ba78e8b562cfef1dc82a445',\n" +
           "'dc1998bcdb6320d', '8011234567', 'Jane Doe', 'idk Lane Herriman UT 84096', @temp);\n" +
           "Select @temp;";
     con.query(sql, function(err,rows){
@@ -455,7 +535,7 @@ function addTableData() {
     });
 
     sql = "SET @temp = 0;\n" +
-          "CALL new_user('member', '518210a7b7adc34a3aac2d440bb3a2796a07e3bcc918783559528b44ca5ab26a',\n" +
+          "CALL new_user('member', '135459db48e05b8d7a0c2449a1dee911a627c07b8ba78e8b562cfef1dc82a445',\n" +
           "'dc1998bcdb6320d', '8011234567', 'Jack Doe', 'idk Lane Herriman UT 84096', @temp);\n" +
           "Select @temp;";
     con.query(sql, function(err,rows){

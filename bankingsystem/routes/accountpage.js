@@ -1,10 +1,94 @@
 var express = require('express');
 var router = express.Router();
 
+var dbCon = require('../lib/database');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     console.log("accountpage.js: GET");
-    res.render('accountpage', {});
+    var username = req.session.username;
+    let sql = "SELECT *\n" +
+              "FROM users\n" +
+              "WHERE username = '" + username + "';";
+    dbCon.query(sql, function(err, rows){
+        if (err){
+            throw err;
+        } else {
+            var name = rows[0].name;
+            var address = rows[0].address;
+            var phone = rows[0].phone;
+            var user_id = rows[0].user_id;
+            sql = "call find_user_accounts('" + username + "','savings');";
+            dbCon.query(sql, function(err,rows){
+                if (err){
+                    throw err;
+                } else {
+                    var savingsAccount = rows[0][0].account_num;
+                    var savingsBalance = rows[0][0].balance;
+                    sql = "call find_user_accounts('" + username + "','checking');";
+                    dbCon.query(sql, function(err,rows){
+                        if (err){
+                            throw err;
+                        } else {
+                            var checkingAccount = rows[0][0].account_num;
+                            var checkingBalance = rows[0][0].balance;
+                            res.render('accountpage', {
+                                username: username,
+                                name: name,
+                                address: address,
+                                phone: phone,
+                                savingsAccount: savingsAccount,
+                                savingsBalance: savingsBalance,
+                                checkingAccount: checkingAccount,
+                                checkingBalance: checkingBalance
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+router.post('/', function(req, res, next){
+    
+    console.log("accountpage.js: POST");
+    var username = req.session.username;
+    var account_type = req.body.account;
+    let sql = "CALL get_user_transactions('" + username + "');";
+    objForTransactionsEJS = {}
+    if (account_type == "checking") {
+        sql = "CALL filter_transactions('" + username + "', '" + account_type +"');";
+        
+        dbCon.query(sql, function(err,rows){
+            if (err){
+                throw err;
+            }
+            objForTransactionsEJS.transactions = rows[0];
+            objForTransactionsEJS.username = username;
+            res.render('transactions', objForTransactionsEJS);
+        });
+    } else if (account_type == "savings") {
+        sql = "CALL filter_transactions('" + username + "', '" + account_type +"');";
+        dbCon.query(sql, function(err,rows){
+            if (err){
+                throw err;
+            }
+            objForTransactionsEJS.transactions = rows[0];
+            objForTransactionsEJS.username = username;
+            res.render('transactions', objForTransactionsEJS);
+        });
+    } else {
+        
+        dbCon.query(sql, function(err,rows){
+            if (err){
+                throw err;
+            }
+            objForTransactionsEJS.transactions = rows[0];
+            objForTransactionsEJS.username = username;
+            res.render('transactions', objForTransactionsEJS);
+        });
+    }
 });
 
 module.exports = router;

@@ -25,10 +25,10 @@
         <tbody>
             <tr>
               <td>
-                123456
+                <%- locals.savingsAccount %>
               </td>
               <td>
-                $0.00
+                <%- locals.savingsBalance %>
               </td>
             </tr>
         </tbody>
@@ -48,10 +48,10 @@
           <tbody>
               <tr>
                 <td>
-                  123456
+                  <%- locals.checkingAccount %>
                 </td>
                 <td>
-                  $0.00
+                  <%- locals.checkingBalance %>
                 </td>
               </tr>
           </tbody>
@@ -61,16 +61,17 @@
   <div class="rounded d-flex justify-content-center p-2">
     <div class="m-2" style="width: 400px">
       <h3>Account information</h3>
-      <h5>Name: NAME HERE</h5>
-      <h5>Address: ADDRESS HERE</h5>
-      <h5>Phone: PHONE HERE</h5>
+      <h5>Account Username: <%- locals.username %></h3>
+      <h5>Name: <%- locals.name %></h5>
+      <h5>Address: <%- locals.address %></h5>
+      <h5>Phone: <%- locals.phone %></h5>
     </div>
   </div>
   <div class="rounded d-flex justify-content-center">
-    <button type="button" class="btn btn-primary" onclick="window.location.href='/'">Update information</button>
-    <button type="button" class="btn btn-primary" onclick="window.location.href='/changepassword'">Change Password</button>
-    <button type="button" class="btn btn-primary" onclick="window.location.href='/transactions'">Transactions</button> 
+    <button type="button" class="btn btn-primary" onclick="window.location.href='/transactions_emp'">Transactions</button> 
     <button type="button" class="btn btn-primary" onclick="window.location.href='/transfer'">Transfer Funds</button>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='/deposit'">Deposit Funds</button>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='/changepassword'">Change Password</button>
     <button type="button" class="btn btn-primary" onclick="window.location.href='/adminaccountsearch'">New Search</button>   
   </div>
 </body>

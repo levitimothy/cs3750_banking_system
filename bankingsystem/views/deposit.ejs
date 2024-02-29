@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Transactions</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+</head>
+
+<body>
+  <div class="rounded d-flex justify-content-center p-2">
+    <h2>Deposit Funds</h2>
+  </div>
+ 
+  
+  <form method="post">
+    <div style="padding-left: 30%; padding-right: 30%;" class="input-group mb-3">
+      <p>To:</p>
+      <input style="text-align: center;" id="deposit" name="deposit" type="number" class="form-control" autofocus="autofocus" placeholder="Account number">
+    </div>
+    <div style="padding-left: 30%; padding-right: 30%;" class="input-group mb-3">
+      <p>Amount:</p>
+      <input style="text-align: center;" id="amount" name="amount" type="text" class="form-control" autofocus="autofocus" placeholder="Amount (ex. 10.00)">
+    </div>
+    <div style="padding-left: 30%; padding-right: 30%;" class="input-group mb-3">
+      <p>Memo:</p>
+      <input style="text-align: center;" id="memo" name="memo" type="text" class="form-control" autofocus="autofocus" placeholder="Memo (Optional)">
+    </div>
+    <div style="padding-bottom: 20px;"class="text-center">
+      <button  class="btn btn-primary mt-2" type="submit">
+        Deposit
+      </button>
+    </div>
+  </form>
+  <div class="rounded d-flex justify-content-center">
+    <button type="button" class="btn btn-primary"><a style="text-decoration: none; color: white;" href="javascript:window. history. back();">Back to Account</a></button>
+  </div>
+</body>
+
+</html>

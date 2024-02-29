@@ -7,4 +7,7 @@ router.get('/', function(req, res, next) {
     res.render('accountresult', {});
 });
 
+
 module.exports = router;
+
+

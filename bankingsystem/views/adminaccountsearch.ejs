@@ -30,6 +30,12 @@
                 <button class="btn btn-primary mt-2" type="submit">
                   Search
                 </button>
+                <button type="button" class="btn btn-primary mt-2" onclick="window.location.href='/transactions_emp'">Transaction Search</button>
+                </div>
+                  <div class="justify-content-left">
+                    Current user: <%- locals.session.username %>
+                  <a href="/logout"><button class="btn btn-primary text-center float-end" type="button">Logout</button></a>
+                </div>
               </div>
             </div>
           </form>

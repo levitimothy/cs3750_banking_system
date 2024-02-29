@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Transactions</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+</head>
+  
+<body>
+  
+    <% if(transactions.length) { %>
+  <div class="rounded d-flex justify-content-center p-2">
+    <h2>Account Transactions for <%- locals.username %></h2>
+  </div>
+  <div style="max-height: 700px; overflow: auto;">
+    <div class="rounded d-flex justify-content-center">
+      <div class="m-2" style="width: 400px">
+        
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Account #</th>
+                <th scope="col">Type</th>
+                <th scope="col">Amount</th>
+                <th colspan="6">Date and Time</th>
+                <th scope="col">Memo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(var i = 0; i < locals.transactions.length; i++) { %>
+                <tr>
+                  <td>
+                    <%- locals.transactions[i].account_num %>
+                  </td>
+                  <td>
+                    <%- locals.transactions[i].account_type %>
+                  </td>
+                  <td>
+                    <%- locals.transactions[i].amount %>
+                  </td>
+                  <td colspan="6">
+                    <%- locals.transactions[i].date_time %>
+                  </td>
+                  <td>
+                    <%- locals.transactions[i].memo %>
+                  </td>
+                </tr>
+                <% } %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <div class="rounded d-flex justify-content-center">
+    <!-- <button type="button" class="btn btn-primary" onclick="window.location.href='/accountsearch'">New Account Search</button> -->
+    <button type="button" class="btn btn-primary  mt-2"><a style="text-decoration: none; color: white;" href="javascript:window. history. back();">Go Back</a></button>
+  </div>
+  <input type="hidden" id="username" name="username" value="<%- locals.username %>">
+  <% } else { %>
+    <div class="rounded d-flex justify-content-center p-2">
+      <h2>Confirm Username for Account</h2>
+    </div>
+      <form method="post">
+        <div style="padding-left: 30%; padding-right: 30%;" class="input-group mb-3">
+          <input style="text-align: center;" id="username_" name="username_" type="text" class="form-control" autofocus="autofocus" placeholder="Username">
+        </div>
+        <div style="padding-bottom: 20px;"class="text-center">
+          <button  class="btn btn-primary mt-2" type="submit">
+            Confirm
+          </button>
+          <button type="button" class="btn btn-primary  mt-2"><a style="text-decoration: none; color: white;" href="javascript:window. history. back();">Go Back</a></button>
+        </div>
+      </form>
+      <p class="text-center">No transactions yet</p>
+  <% } %>
+</body>
+
+</html>

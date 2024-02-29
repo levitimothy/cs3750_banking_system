@@ -12,10 +12,13 @@ var accountPageRouter = require('./routes/accountpage');
 var accountResultRouter = require('./routes/accountresult');
 var accountSearchRouter = require('./routes/accountsearch');
 var transactionsRouter = require('./routes/transactions');
+var transactionsEmpRouter = require('./routes/transactions_emp');
 var adminAccountSearchRouter = require('./routes/adminaccountsearch');
 var adminAccountResultRouter = require('./routes/adminaccountresult');
 var changePasswordRouter = require('./routes/changepassword');
-var transferRouter = require('./routes/transfer')
+var transferRouter = require('./routes/transfer');
+var depositRouter = require('./routes/deposit');
+var registerRouter = require('./routes/register');
 
 var app = express();
 
@@ -30,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
 app.use(express.static(path.join(__dirname, "node_modules/bootstrap-icons/")));
+app.use(express.static(path.join(__dirname, "node_modules/crypto-js/")));
 
 // This will set up the database if it doesn't already exist
 var dbCon = require('./lib/database');
@@ -67,8 +71,11 @@ app.use('/accountsearch', accountSearchRouter);
 app.use('/adminaccountsearch', adminAccountSearchRouter);
 app.use('/adminaccountresult', adminAccountResultRouter);
 app.use('/transactions', transactionsRouter);
+app.use('/transactions_emp', transactionsEmpRouter);
 app.use('/changepassword', changePasswordRouter);
 app.use('/transfer', transferRouter);
+app.use('/deposit', depositRouter);
+app.use('/register', registerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
